@@ -1,0 +1,3 @@
+[submodule "machines/riscv/pulpino/pulpino"]
+	path = machines/riscv/pulpino/pulpino
+	url = git@gitlab.com:suehtamacv/pulpino.git
