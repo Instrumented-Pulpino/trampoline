@@ -39,7 +39,7 @@
 #define HW_FUNC_PREEMPT                   BIT(11)
 #define HW_FUNC_RUN_ELECTED               BIT(12)
 #define HW_FUNC_START                     BIT(13)
-#define  HW_FUNC_SCHEDULE_FROM_RUNNING    BIT(14)
+#define HW_FUNC_SCHEDULE_FROM_RUNNING     BIT(14)
 #define HW_FUNC_TERMINATE                 BIT(15)
 #define HW_FUNC_BLOCK                     BIT(16)
 #define HW_FUNC_ACTIVATE_TASK             BIT(17)

@@ -48,6 +48,9 @@
 #include "tpl_as_timing_protec.h"
 #endif
 
+#if (LEVEL_KERNEL_MONITORING >= 1) /* with kernel monitoring */
+#include "tpl_fabric_definitions.h"
+#endif
 
 #define OS_START_SEC_VAR_NOINIT_UNSPECIFIED
 #include "tpl_memmap.h"

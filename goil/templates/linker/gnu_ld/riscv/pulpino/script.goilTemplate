@@ -136,3 +136,13 @@ SECTIONS {
     libgcc.a ( * )
   }
 }
+
+SECTIONS
+{
+  .FPGA :
+  {
+    *(.FPGA)
+     *(.FPGA.tplKern)
+     KEEP(*(.FPGA.OsInstru))
+  } > fabric
+}

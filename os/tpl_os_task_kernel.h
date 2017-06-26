@@ -28,6 +28,10 @@
 
 #include "tpl_os_kernel.h"
 
+#if (LEVEL_KERNEL_MONITORING >= 1) /* with kernel monitoring */
+#include "tpl_fabric_definitions.h"
+#endif
+
 /**
  * @struct TPL_TASK_EVENTS
  *
@@ -150,7 +154,7 @@ FUNC(tpl_status, OS_CODE) tpl_get_task_id_service(
 FUNC(tpl_status, OS_CODE) tpl_get_task_state_service(
   CONST(tpl_task_id, AUTOMATIC)                        task_id,
   CONSTP2VAR(tpl_proc_state, AUTOMATIC, OS_APPL_DATA)  state);
-  
+
 #define OS_STOP_SEC_CODE
 #include "tpl_memmap.h"
 

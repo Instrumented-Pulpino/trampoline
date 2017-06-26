@@ -18,8 +18,8 @@ IMPLEMENTATION riscv {
          SOFTWARE
          ] TYPE = HARDWARE;
   };
-  
-  INTERRUPT [] { 
+
+  INTERRUPT [] {
     UINT32 VECT = 1024;
     BOOLEAN EXCEPTION = FALSE;
     ENUM [
@@ -35,7 +35,7 @@ IMPLEMENTATION riscv {
       }
     ] VECTOR_TYPE;
     BOOLEAN [
-      TRUE { 
+      TRUE {
         BOOLEAN [
           TRUE { STRING NAME; },
           FALSE
@@ -49,7 +49,7 @@ IMPLEMENTATION riscv {
     ] SETPRIO = FALSE;
     UINT32 [1,2] CATEGORY = 1;
   };
-  
+
   INTERRUPT_COUNT {
     UINT32 IT_TABLE_SIZE;
   };
@@ -58,6 +58,7 @@ IMPLEMENTATION riscv {
 CPU riscv {
   BUILDOPTIONS riscv {
     COMMONFLAGS = "-nostartfiles";
+    COMMONFLAGS = "-DLEVEL_KERNEL_MONITORING=4";
   };
 
   INTERRUPT SOFT_IRQ0 {
@@ -87,5 +88,3 @@ CPU riscv {
     ACK = TRUE;
   };
 };
-
-
