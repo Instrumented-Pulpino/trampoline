@@ -82,7 +82,7 @@ foreach objList in objForIRQ do
       end if
     end if
   end foreach
-  let irqStageList += anIrq 
+  let irqStageList += anIrq
 end foreach
 
 #------------------------------------------------------------------------------*
@@ -105,6 +105,7 @@ end foreach
 
 #include <pulpino.h>
 #include <tpl_asm_definitions.h>
+#include <tpl_fabric_definitions.h>
 
 #define NO_NEED_SWITCH_NOR_SCHEDULE 0
 #define NO_NEED_SWITCH 0
@@ -134,6 +135,13 @@ tpl_interruption_handler:
   la a6, tpl_reentrancy_counter
   sw a5, 0(a6)
 
+  /* inform the fabric we are entering the kernel  */
+  #if (LEVEL_KERNEL_MONITORING >= 2)
+  li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+  li a5, ID_CALL_HANDLER
+  sw a5, 0(s4)
+  #endif
+
   /* Retrieves pointer to handler */
   la a5, tpl_it_vectors
   csrr a6, mcause
@@ -149,7 +157,7 @@ tpl_no_context_switch:
   lw a6, 4(sp)
   lw a5, 0(sp)
   addi sp, sp, 16
-        
+
   /* Returns */
   ret
 
@@ -182,4 +190,3 @@ end foreach
 %
 
 /* End of file tpl_second_stage_irq.% !EXTENSIONSECONDSTAGE % */
-

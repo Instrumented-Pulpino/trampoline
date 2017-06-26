@@ -1,5 +1,6 @@
 #include "tpl_asm_definitions.h"
 #include "tpl_service_ids.h"
+#include "tpl_fabric_definitions.h"
 
     .global tpl_sc_handler
     .global tpl_switch_context
@@ -30,17 +31,57 @@ tpl_sc_handler:
     la a6, tpl_reentrancy_counter
     sw a5, 0(a6)
 
+    /* inform the fabric we are entering the kernel  */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a5, ID_CALL_HANDLER
+    sw a5, 0(s4)
+    #endif
+
     /* Gets function pointer to the service */
+    #if (LEVEL_KERNEL_MONITORING >= 3)
+    mv a6, a7
+    #endif
     la a5, tpl_dispatch_table
     slli a7, a7, 2
     add a5, a5, a7
     lw a5, 0(a5)
+
+    /* Get the unique identifier of the service to notify it to the fabric */
+    #if (LEVEL_KERNEL_MONITORING >= 3)
+    la a6, tpl_unique_id_table
+    add a6, a6, a7
+    lb a7, 0(a6)
+    li a6, AD_REG_OS_INSTRU_SERVICE
+    sw a7, 0(a6)
+    #endif
+
+    /* Inform the fabric we are calling a service */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li  a6, ID_CALL_SERVICE
+    sw  a6, 0(a4)
+    #endif
 
     /* Jumps to handler */
     jalr a5
 
     /* Stores return value in stack created at store_regs (0x14 + 0x10) */
     sw a0, 0x24(sp)
+
+    /* Inform the fabric we are leaving a service */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li  a5, ID_CALL_SERVICE
+    sw  a5, 0(a4)
+    #endif
+
+    /* Inform the fabric that no service is running */
+    #if (LEVEL_KERNEL_MONITORING >= 3)
+    li  a4, AD_REG_OS_INSTRU_SERVICE
+    li  a5, NO_SERVICE
+    sw  a5, 0(a4)
+    #endif
 
     /* No context switch if reentrant system call */
     lw a5, tpl_reentrancy_counter
@@ -57,6 +98,13 @@ tpl_switch_context:
     #endif
     beqz a6, tpl_sc_no_context_switch
 
+    /* inform the fabric we are executing a context switch */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a7, ID_CALL_CONTEXT
+    sw a7, 0(a5)
+    #endif
+
     /* Prepare the call to tpl_run_elected by setting a0 to 0, aka no save */
     li a0, 0
 
@@ -65,11 +113,25 @@ tpl_switch_context:
     and a5, a5, a6
     beqz a5, tpl_sc_handler_no_save_running_context
 
+    /* inform the fabric we are executing a save context */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a6, ID_CALL_SAVE
+    sw a6, 0(a5)
+    #endif
+
     /* Save context */
     la  a0, tpl_kern
     lw  a0, TPL_KERN_OFFSET_S_RUNNING(a0)
     lw  a0, 0(a0)
     jal tpl_save_context
+
+    /* inform the fabric we are finishing a save context */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a6, ID_CALL_SAVE
+    sw a6, 0(a5)
+    #endif
 
     /* Prepare the call to tpl_run_elected by setting a0 to 1 */
     li a0, 1
@@ -84,6 +146,13 @@ tpl_sc_handler_no_save_running_context:
     lw  a0, 0(a0)
     jal tpl_load_context
 
+    /* inform the fabric we are finishing a context switch */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a6, ID_CALL_CONTEXT
+    sw a6, 0(a5)
+    #endif
+
     /* Reset tpl_need_switch variable */
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
@@ -97,6 +166,13 @@ tpl_sc_no_context_switch:
     li a5, 0x1a104018 //ESP
     li a6, 1
     sw a6, 0(a5)
+
+    /* inform the fabric we are leaving the kernel  */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a5, ID_CALL_HANDLER
+    sw a5, 0(s4)
+    #endif
 
     /* Adjusts reentrancy counter */
     lw a5, tpl_reentrancy_counter
