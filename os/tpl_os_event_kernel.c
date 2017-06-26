@@ -94,7 +94,7 @@ FUNC(tpl_status, OS_CODE) tpl_set_event_service(
   PROCESS_ERROR(result)
 
   UNLOCK_KERNEL()
-
+  
   return result;
 }
 
@@ -133,7 +133,6 @@ FUNC(tpl_status, OS_CODE) tpl_clear_event_service(
   PROCESS_ERROR(result)
 
   UNLOCK_KERNEL()
-
   return result;
 }
 
@@ -180,7 +179,7 @@ FUNC(tpl_status, OS_CODE) tpl_get_event_service(
   PROCESS_ERROR(result)
 
   UNLOCK_KERNEL()
-
+  
   return result;
 }
 
@@ -252,7 +251,7 @@ FUNC(tpl_status, OS_CODE) tpl_wait_event_service(
   PROCESS_ERROR(result)
 
   UNLOCK_KERNEL()
-
+  
   return result;
 }
 

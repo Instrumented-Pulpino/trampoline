@@ -261,11 +261,21 @@ typedef struct
  * should be saved.
  */
   VAR(uint8, TYPEDEF)                         need_switch;
+#if (LEVEL_KERNEL_MONITORING >= 1) /* whith kernel monitoring */
+  VAR(uint8, TYPEDEF)                         no_use1;
+  VAR(uint8, TYPEDEF)                         no_use2;
+  VAR(uint8, TYPEDEF)                         no_use3;
+#endif
 
 /**
  * Boolean used to notify a rescheduling should be done
  */
   VAR(tpl_bool, TYPEDEF)                      need_schedule;
+#if (LEVEL_KERNEL_MONITORING >= 1) /* whith kernel monitoring */
+  VAR(uint8, TYPEDEF)                         no_use4;
+  VAR(uint8, TYPEDEF)                         no_use5;
+  VAR(uint8, TYPEDEF)                         no_use6;
+#endif
 
 #if WITH_MEMORY_PROTECTION == YES
 /**
@@ -645,6 +655,10 @@ FUNC(void, OS_CODE)tpl_multi_schedule(void);
 FUNC(void, OS_CODE) tpl_dispatch_context_switch(void);
 
 #endif /* NUMBER_OF_CORES > 1 */
+
+#if (LEVEL_KERNEL_MONITORING >= 3) /* whith kernel monitoring */
+	extern VAR(uint32, TYPEDEF) reg_OS_instru_kernel_functions;
+#endif  
 
 #define OS_STOP_SEC_CODE
 #include "tpl_memmap.h"

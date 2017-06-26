@@ -96,8 +96,7 @@ FUNC(StatusType, OS_CODE) tpl_activate_task_service(
   PROCESS_ERROR(result)
 
   /*  unlock the kernel  */
-  UNLOCK_KERNEL()
-
+  UNLOCK_KERNEL() 
   return result;
 }
 
@@ -150,7 +149,7 @@ FUNC(StatusType, OS_CODE) tpl_terminate_task_service(void)
 
 FUNC(StatusType, OS_CODE) tpl_chain_task_service(
   CONST(tpl_task_id, AUTOMATIC) task_id)
-{
+{ 
   GET_CURRENT_CORE_ID(core_id)
 
   VAR(StatusType, AUTOMATIC)  result = E_OK;
@@ -236,7 +235,7 @@ FUNC(StatusType, OS_CODE) tpl_chain_task_service(
 
 
 FUNC(StatusType, OS_CODE) tpl_schedule_service(void)
-{
+{ 
   GET_CURRENT_CORE_ID(core_id)
 
   VAR(StatusType, AUTOMATIC) result = E_OK;
@@ -279,15 +278,15 @@ FUNC(StatusType, OS_CODE) tpl_schedule_service(void)
   PROCESS_ERROR(result)
 
   /*  unlock the task structures  */
-  UNLOCK_KERNEL()
-
+  UNLOCK_KERNEL()  
+ 
   return result;
 }
 
 
 FUNC(StatusType, OS_CODE) tpl_get_task_id_service(
   CONSTP2VAR(tpl_task_id, AUTOMATIC, OS_APPL_DATA) task_id)
-{
+{   
   GET_CURRENT_CORE_ID(core_id)
 
   VAR(StatusType, AUTOMATIC) result = E_OK;
@@ -331,7 +330,7 @@ FUNC(StatusType, OS_CODE) tpl_get_task_id_service(
 FUNC(StatusType, OS_CODE) tpl_get_task_state_service(
   CONST(tpl_task_id, AUTOMATIC)                        task_id,
   CONSTP2VAR(tpl_proc_state, AUTOMATIC, OS_APPL_DATA)  state)
-{
+{  
   GET_CURRENT_CORE_ID(core_id)
 
   VAR(StatusType, AUTOMATIC) result = E_OK;
