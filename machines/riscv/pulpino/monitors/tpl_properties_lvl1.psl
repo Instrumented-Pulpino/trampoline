@@ -1,0 +1,17 @@
+vunit properties_lvl1{
+
+Prop1 : always(not(E2 or E6));
+
+Prop2 : always((E5 or E7) -> next(not(E0)));
+
+Prop3 : always(not(E5 or E7) -> next(not(E1)));
+
+Prop4 : always(not(E0 or E5) -> next(not(E3)));
+
+Prop5 : always(fell(E0) -> E4);
+
+Prop6_7 : always(fell(E4) -> (E5 or E7));
+
+Prop8 : always(rose(E4) -> (run_elected));
+
+}
