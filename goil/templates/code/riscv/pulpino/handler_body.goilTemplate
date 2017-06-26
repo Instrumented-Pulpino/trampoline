@@ -20,7 +20,11 @@ ISR_% !handlerSource %:
      * 2 - Check the context switch condition in tpl_kern
      */
     la a0, tpl_kern
+    #if LEVEL_KERNEL_MONITORING >= 1
+    lw a6, TPL_KERN_OFFSET_NEED_SWITCH(a0)
+    #else
     lb a6, TPL_KERN_OFFSET_NEED_SWITCH(a0)
+    #endif
     beqz a6, 1f
 
     /*-------------------------------------------------------------------------
@@ -36,20 +40,20 @@ ISR_% !handlerSource %:
     li a5, NEED_SAVE
     and a5, a5, a6
     beqz a5, 2f
-    
+
     /* Save context */
     la  a0, tpl_kern
     lw  a0, TPL_KERN_OFFSET_S_RUNNING(a0)
     lw  a0, 0(a0)
     jal tpl_save_context
-        
+
     /* Prepare the call to tpl_run_elected by setting a0 to 1 */
     li a0, 1
 
     /*-------------------------------------------------------------------------
      * 4 - Call tpl_run_elected.
      *     The argument is a boolean which is true if the process is
-     *     preempted. 
+     *     preempted.
      */
 2:
     jal tpl_run_elected
@@ -66,7 +70,11 @@ ISR_% !handlerSource %:
 
     /* Reset tpl_need_switch variable */
     la a5, tpl_kern
-    sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    #if LEVEL_KERNEL_MONITORING >= 1
+    sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    #else
+    sb a6, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    #endif
 
 1:
     /* Wakes up core in reentrant kernel calls by triggering dummy event */
