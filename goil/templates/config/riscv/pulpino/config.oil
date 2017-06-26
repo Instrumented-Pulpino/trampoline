@@ -122,6 +122,10 @@ CPU pulpino {
     CFILE = "tpl_machine_riscv.c";
   };
 
+  GENERATED_FILES pulpino_instrumented {
+    CFILE = "tpl_unique_service_ids.c";
+  };
+
   POSTCOMMAND all {
     COMMAND mkdir {
       MESSAGE = "Creating";

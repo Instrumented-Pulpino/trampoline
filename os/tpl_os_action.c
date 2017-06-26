@@ -62,9 +62,9 @@ FUNC(void, OS_CODE) tpl_action_activate_task(
    * first member of tpl_task_activation_action is a tpl_action
    * This cast behaves correctly.
    */
-	#if (LEVEL_KERNEL_MONITORING >= 4) /* whith kernel monitoring */
-	reg_OS_instru_kernel_functions = HW_FUNC_ACTION_ACTIVATE_TASK;
-	#endif
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_ACTION_ACTIVATE_TASK;
+#endif
   /*  init the error to no error  */
   VAR(StatusType, AUTOMATIC) result_action = E_OK;
 
@@ -79,9 +79,9 @@ FUNC(void, OS_CODE) tpl_action_activate_task(
       OS_APPL_CONST))action)->task_id);
 
   PROCESS_ERROR(result_action)
-	#if (LEVEL_KERNEL_MONITORING >= 4) /* whith kernel monitoring */
-	reg_OS_instru_kernel_functions = HW_FUNC_ACTION_ACTIVATE_TASK;
-	#endif
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_ACTION_ACTIVATE_TASK;
+#endif
 }
 
 /**
@@ -99,10 +99,10 @@ FUNC(void, OS_CODE) tpl_action_setevent(
    * This cast behaves correctly.
    */
 
-	#if (LEVEL_KERNEL_MONITORING >= 4) /* whith kernel monitoring */
-	reg_OS_instru_kernel_functions = HW_FUNC_ACTION_SETEVENT;
-	#endif
-   
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_ACTION_SETEVENT;
+#endif
+
   /*  init the error to no error  */
   VAR(StatusType, AUTOMATIC) result_action = E_OK;
 
@@ -117,10 +117,10 @@ FUNC(void, OS_CODE) tpl_action_setevent(
   );
 
   PROCESS_ERROR(result_action);
-	#if (LEVEL_KERNEL_MONITORING >= 4) /* whith kernel monitoring */
-	reg_OS_instru_kernel_functions = HW_FUNC_ACTION_SETEVENT;
-	#endif  
-  
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_ACTION_SETEVENT;
+#endif
+
 }
 
 #endif

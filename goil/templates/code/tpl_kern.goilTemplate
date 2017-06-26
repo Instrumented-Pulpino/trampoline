@@ -23,16 +23,16 @@ VAR(tpl_kern_state, OS_VAR) tpl_kern =
   INVALID_PROC_ID,           /* idle task has no ID                 */
   NO_NEED_SWITCH,            /* no context switch needed at start   */
 #if (LEVEL_KERNEL_MONITORING >= 1) /* with kernel monitoring by fabric */
-  0x00,						 /*padding*/
-  0x00,						 /*padding*/
-  0x00,						 /*padding*/
-#endif  
+  0x00,             /*padding*/
+  0x00,             /*padding*/
+  0x00,             /*padding*/
+#endif
   FALSE,                     /* no schedule needed at start         */
 #if (LEVEL_KERNEL_MONITORING >= 1) /* with kernel monitoring by fabric */
-  0x00,						 /*padding*/
-  0x00,						 /*padding*/
-  0x00,						 /*padding*/
-#endif 
+  0x00,             /*padding*/
+  0x00,             /*padding*/
+  0x00,             /*padding*/
+#endif
 #if WITH_MEMORY_PROTECTION == YES
   1,                         /* at early system startup, we run in  */
                              /*  kernel mode, so in trusted mode    */
@@ -68,14 +68,14 @@ VAR(tpl_kern_state, OS_VAR) tpl_kern_% !core_id % =
 };
 %
   end loop
-  
+
   loop core_id from 0 to OS::NUMBER_OF_CORES - 1
     before %
 CONSTP2VAR(tpl_kern_state, OS_CONST, OS_VAR) tpl_kern[% ! OS::NUMBER_OF_CORES %] =
 {
 %
-    do %  &tpl_kern_% !core_id 
-    between %, 
+    do %  &tpl_kern_% !core_id
+    between %,
 %
     after %
 };
