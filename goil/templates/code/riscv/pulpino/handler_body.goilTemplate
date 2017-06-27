@@ -51,7 +51,7 @@ ISR_% !handlerSource %:
     /* inform the fabric we are executing a save context */
     #if (LEVEL_KERNEL_MONITORING >= 2)
     li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_SAVE
+    li a6, ID_CALL_CONTEXT
     sw a6, 0(a5)
     #endif
 
@@ -64,7 +64,7 @@ ISR_% !handlerSource %:
     /* inform the fabric we are finishing a save context */
     #if (LEVEL_KERNEL_MONITORING >= 2)
     li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_SAVE
+    li a6, ID_CALL_CONTEXT
     sw a6, 0(a5)
     #endif
 
@@ -100,18 +100,13 @@ ISR_% !handlerSource %:
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
     sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sw zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #else
-    sb a6, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sb zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #endif
 
 1:
-    /* inform the fabric we are leaving the kernel  */
-    #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a5, ID_CALL_HANDLER
-    sw a5, 0(s4)
-    #endif
-
     /* Wakes up core in reentrant kernel calls by triggering dummy event */
     li a5, 0x1a104018 //ESP
     li a6, 1
@@ -134,6 +129,13 @@ ISR_% !handlerSource %:
     bnez a6, 1f
     lw a6, tpl_mestatus
     csrw 0x7c0, a6
+
+    /* inform the fabric we are leaving the kernel  */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a5, ID_CALL_HANDLER
+    sw a5, 0(s4)
+    #endif
 
     /* Clears up dummy event */
     li a5, 0x1a10401C //ECP

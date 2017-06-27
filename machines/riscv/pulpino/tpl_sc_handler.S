@@ -30,6 +30,8 @@ tpl_sc_handler:
     addi a5, a5, 1
     la a6, tpl_reentrancy_counter
     sw a5, 0(a6)
+    li a6, 1
+    bne a5, a6, 1f
 
     /* inform the fabric we are entering the kernel  */
     #if (LEVEL_KERNEL_MONITORING >= 2)
@@ -38,6 +40,7 @@ tpl_sc_handler:
     sw a5, 0(s4)
     #endif
 
+1:
     /* Gets function pointer to the service */
     #if (LEVEL_KERNEL_MONITORING >= 3)
     mv a6, a7
@@ -50,6 +53,7 @@ tpl_sc_handler:
     /* Get the unique identifier of the service to notify it to the fabric */
     #if (LEVEL_KERNEL_MONITORING >= 3)
     la a6, tpl_unique_id_table
+    srli a7, a7, 2
     add a6, a6, a7
     lb a7, 0(a6)
     li a6, AD_REG_OS_INSTRU_SERVICE
@@ -157,8 +161,10 @@ tpl_sc_handler_no_save_running_context:
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
     sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sw zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #else
-    sb a6, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sb zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #endif
 
 tpl_sc_no_context_switch:
@@ -166,13 +172,6 @@ tpl_sc_no_context_switch:
     li a5, 0x1a104018 //ESP
     li a6, 1
     sw a6, 0(a5)
-
-    /* inform the fabric we are leaving the kernel  */
-    #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a5, ID_CALL_HANDLER
-    sw a5, 0(s4)
-    #endif
 
     /* Adjusts reentrancy counter */
     lw a5, tpl_reentrancy_counter
@@ -189,6 +188,13 @@ tpl_sc_no_context_switch:
     li a5, 0x1a10401C //ECP
     li a6, 1
     sw a6, 0(a5)
+
+    /* inform the fabric we are leaving the kernel  */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li a5, ID_CALL_HANDLER
+    sw a5, 0(s4)
+    #endif
 
     /* Trigger pending interruptions */
     li a5, 0x1a104000

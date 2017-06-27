@@ -1,0 +1,18 @@
+vunit trampoline_properties{
+
+Prop1 : always(not(E2) and not(E6));
+
+Prop2 : always(fell(E0) -> (E1 or E3 or E4));
+
+Prop3 : always(fell(E1) -> (E0));
+
+Prop4 : always(fell(E3) -> (E0));
+
+Prop5 : always(fell(E4) -> (E0 or E5 or E7));
+
+Prop6 : always(fell(E5) -> (E1));
+
+Prop7 : always(fell(E7) -> (E3));
+
+
+}
