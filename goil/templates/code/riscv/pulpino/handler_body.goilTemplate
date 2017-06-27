@@ -6,10 +6,24 @@
 /*---------------------------------------------------------------------------*/
 ISR_% !handlerSource %:
 
+    /* Inform the fabric we are calling a service */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li  a6, ID_CALL_SERVICE
+    sw  a6, 0(a4)
+    #endif
+
     /*-------------------------------------------------------------------------
      * 1 - Interrupt function call
      */
     jal % !handlerIRQ %
+
+    /* Inform the fabric we are leaving a service */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
+    li  a5, ID_CALL_SERVICE
+    sw  a5, 0(a4)
+    #endif
 
     /* No context switch if reentrant interruption */
     lw a5, tpl_reentrancy_counter
@@ -100,10 +114,8 @@ ISR_% !handlerSource %:
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
     sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
-    sw zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #else
     sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
-    sb zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #endif
 
 1:

@@ -161,10 +161,8 @@ tpl_sc_handler_no_save_running_context:
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
     sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
-    sw zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #else
     sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
-    sb zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #endif
 
 tpl_sc_no_context_switch:
