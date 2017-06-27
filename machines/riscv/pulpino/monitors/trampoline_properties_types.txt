@@ -33,5 +33,13 @@ I:start_scheduling:0:0:0
 I:action_activate_task:0:0:0
 I:action_set_event:0:0:0
 I:call_save:0:0:0
+I:activate_task_service:0:0:0
+I:terminate_task_service:0:0:0
+I:chain_task_service:0:0:0
+I:schedule_service:0:0:0
+I:set_event_service:0:0:0
+I:wait_event_service:0:0:0
+I:release_resource_service:0:0:0
+I:start_os_service:0:0:0
 I:reset:0:0:0
 I:enable_IT:0:0:0

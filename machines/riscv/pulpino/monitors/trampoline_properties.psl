@@ -1,18 +1,83 @@
 vunit trampoline_properties{
 
-Prop1 : always(not(E2) and not(E6));
+Prop01 : always(not(E2) and not(E6));
 
-Prop2 : always(fell(E0) -> (E1 or E3 or E4));
+Prop02 : always(fell(E0) -> (E1 or E3 or E4));
 
-Prop3 : always(fell(E1) -> (E0));
+Prop03 : always(fell(E1) -> (E0));
 
-Prop4 : always(fell(E3) -> (E0));
+Prop04 : always(fell(E3) -> (E0));
 
-Prop5 : always(fell(E4) -> (E0 or E5 or E7));
+Prop05 : always(fell(E4) -> (E0 or E5 or E7));
 
-Prop6 : always(fell(E5) -> (E1));
+Prop06 : always(fell(E5) -> (E1));
 
-Prop7 : always(fell(E7) -> (E3));
+Prop07 : always(fell(E7) -> (E3));
 
+Prop08 : always(rose(E4) -> next(run_elected));
+
+Prop09 : always(rose(run_elected) -> call_handler);
+
+Prop10 : always(fell(run_elected) -> call_handler);
+
+Prop11 : always(rose(call_service) -> E0);
+
+Prop12 : always(fell(call_service) -> (not(E5) and not(E7)));
+
+Prop13 : always(rose(call_context) -> (E1 or E3));
+
+Prop14 : always(fell(run_elected) -> call_context);
+
+Prop15 : always(call_service -> call_handler);
+
+Prop16 : always(call_context -> call_handler);
+
+Prop17 : always(fell(call_service) before fell(call_handler));
+
+Prop18 : always(rose(call_save) -> (E3 and call_context));
+
+Prop19 : always(activate_task_service -> (not(E1) and not(E5)));
+
+Prop20 : always(fell(activate_task_service) -> (E0 or E3 or E4));
+
+Prop21 : always(terminate_task_service -> (E0 or E1));
+
+Prop22 : always(fell(terminate_task_service) -> E1);
+
+Prop23 : always(compare_entries -> (bubble_up or bubble_down));
+
+Prop24 : always(bubble_up -> (put_new_proc or put_preempted_proc));
+
+Prop25 : always(bubble_down -> (remove_front_proc or remove_proc));
+
+Prop26 : always(put_preempted_proc -> run_elected);
+
+Prop27 : always(put_new_proc -> (release or activate_task));
+
+Prop28 : always(remove_front_proc -> start);
+
+Prop29 : always(init_proc -> start);
+
+Prop30 : always(release -> set_event);
+
+Prop31 : always(run_elected -> call_context);
+
+Prop32 : always(start -> (schedule_from_running or terminate_task_service or chain_task_service or start_scheduling or release));
+
+Prop33 : always(release_internal_resource -> (block_s or terminate or schedule_service));
+
+Prop34 : always(block_s -> wait_event_service);
+
+Prop35 : always(terminate -> (terminate_task_service or chain_task_service));
+
+Prop36 : always(activate_task -> (activate_task_service or chain_task_service or init_os or action_activate_task));
+
+Prop37 : always(set_event -> (set_event_service or action_set_event));
+
+Prop38 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or release_resource_service));
+
+Prop39 : always(start_scheduling -> start_os_service);
+
+Prop40 : always(init_os -> start_os_service);
 
 }

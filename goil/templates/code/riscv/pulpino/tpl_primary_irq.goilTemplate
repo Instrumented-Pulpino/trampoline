@@ -134,14 +134,17 @@ tpl_interruption_handler:
   addi a5, a5, 1
   la a6, tpl_reentrancy_counter
   sw a5, 0(a6)
+  li a6, 1
+  bne a5, a6, 1f
 
   /* inform the fabric we are entering the kernel  */
   #if (LEVEL_KERNEL_MONITORING >= 2)
   li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
   li a5, ID_CALL_HANDLER
-  sw a5, 0(s4)
+  sw a5, 0(a4)
   #endif
 
+1:
   /* Retrieves pointer to handler */
   la a5, tpl_it_vectors
   csrr a6, mcause

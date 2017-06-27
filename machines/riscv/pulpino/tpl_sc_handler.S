@@ -37,7 +37,7 @@ tpl_sc_handler:
     #if (LEVEL_KERNEL_MONITORING >= 2)
     li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
     li a5, ID_CALL_HANDLER
-    sw a5, 0(s4)
+    sw a5, 0(a4)
     #endif
 
 1:
@@ -193,7 +193,7 @@ tpl_sc_no_context_switch:
     #if (LEVEL_KERNEL_MONITORING >= 2)
     li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
     li a5, ID_CALL_HANDLER
-    sw a5, 0(s4)
+    sw a5, 0(a4)
     #endif
 
     /* Trigger pending interruptions */
