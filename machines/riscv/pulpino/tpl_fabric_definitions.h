@@ -1,7 +1,3 @@
-/*
- *
- */
-
 #ifndef TPL_FABRIC_DEFINITIONS_H
 #define TPL_FABRIC_DEFINITIONS_H
 
@@ -9,11 +5,11 @@
 #define BIT(n)                            (1 << (n))
 
 /*********************************************************************************************************************************************/
-#define AD_REG_OS_INSTRU_SERVICE          0x1A108024
+#define AD_REG_OS_INSTRU_SERVICE          0x1A108020
 #define NO_SERVICE                        0xFF
 
 /*********************************************************************************************************************************************/
-#define AD_REG_OS_INSTRU_KERNEL_FUNCTIONS 0x1A108020
+#define AD_REG_OS_INSTRU_KERNEL_FUNCTIONS 0x1A108024
 
 /**********************************************************************************
 *  Instrumention of system call handler
@@ -25,7 +21,7 @@
 
 /**********************************************************************************
 *  Instrumentation of OS Kernel functions
-************************************************************************************/
+***********************************************************************************/
 
 /*tpl_os_task_kernel*/
 #define HW_FUNC_COMPARE_ENTRIES           BIT(3)
@@ -54,8 +50,14 @@
 #define HW_FUNC_ACTION_ACTIVATE_TASK      BIT(24)
 #define HW_FUNC_ACTION_SETEVENT           BIT(25)
 
+/*tpl_os_interrupt_kernel*/
+#define HW_FUNC_CENTRAL_INTERRUPT_HANDLER BIT(26)
+
+/*counter call*/
+#define HW_FUNC_COUNTER_TICK              BIT(27)
+
 /*tpl_ctx_switch*/
-#define ID_CALL_SAVE                      BIT(26)
+#define ID_CALL_SAVE                      BIT(28)
 
 /*********************************************************************************************************************************************/
 

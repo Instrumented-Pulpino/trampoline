@@ -1256,6 +1256,7 @@ FUNC(void, OS_CODE) tpl_init_os(CONST(tpl_application_mode, AUTOMATIC) app_mode)
 #if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
   reg_OS_instru_kernel_functions = HW_FUNC_INIT_OS;
 #endif
+
   GET_CURRENT_CORE_ID(core_id)
 #if TASK_COUNT > 0 || ALARM_COUNT > 0 || SCHEDTABLE_COUNT > 0
   VAR(uint16, AUTOMATIC) i;
@@ -1352,7 +1353,7 @@ FUNC(void, OS_CODE) tpl_init_os(CONST(tpl_application_mode, AUTOMATIC) app_mode)
             auto_time_obj->state = SCHEDULETABLE_STOPPED;
             result = tpl_start_schedule_table_abs(i, auto_time_obj->date);
           }
-#if AUTOSAR_SC == 2 || AUTOSAR_SC == 4
+# if AUTOSAR_SC == 2 || AUTOSAR_SC == 4
           else
           {
             if (auto_time_obj->state == (tpl_time_obj_state)SCHEDULETABLE_AUTOSTART_SYNCHRON)
@@ -1361,12 +1362,13 @@ FUNC(void, OS_CODE) tpl_init_os(CONST(tpl_application_mode, AUTOMATIC) app_mode)
               result = tpl_start_schedule_table_synchron(i);
             }
           }
-#endif
+# endif
         }
       }
     }
   }
 #endif
+
 #if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
   reg_OS_instru_kernel_functions = HW_FUNC_INIT_OS;
 #endif

@@ -344,6 +344,10 @@ STATIC FUNC(void, OS_CODE) tpl_activate_isr(
 FUNC(void, OS_CODE) tpl_central_interrupt_handler(
   CONST(uint16, AUTOMATIC) isr_id)
 {
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_CENTRAL_INTERRUPT_HANDLER;
+#endif
+
   P2CONST(tpl_isr_static, AUTOMATIC, OS_APPL_DATA) isr;
   GET_CURRENT_CORE_ID(core_id)
 
@@ -396,6 +400,10 @@ FUNC(void, OS_CODE) tpl_central_interrupt_handler(
       LOCAL_SWITCH_CONTEXT(core_id)
     }
   }
+
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_CENTRAL_INTERRUPT_HANDLER;
+#endif
 }
 
 /*
@@ -408,6 +416,10 @@ FUNC(void, OS_CODE) tpl_central_interrupt_handler(
 FUNC(void, OS_CODE) tpl_fast_central_interrupt_handler(
   CONST(uint16, AUTOMATIC) isr_id)
 {
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_CENTRAL_INTERRUPT_HANDLER;
+#endif
+
   P2CONST(tpl_isr_static, AUTOMATIC, OS_APPL_DATA) isr;
   GET_CURRENT_CORE_ID(core_id)
 
@@ -438,6 +450,9 @@ FUNC(void, OS_CODE) tpl_fast_central_interrupt_handler(
       LOCAL_SWITCH_CONTEXT(core_id)
     }
   }
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_CENTRAL_INTERRUPT_HANDLER;
+#endif
 }
 
 /*

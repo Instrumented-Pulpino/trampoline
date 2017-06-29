@@ -141,8 +141,9 @@ SECTIONS
 {
   .FPGA :
   {
-    *(.FPGA)
+     *(.FPGA)
      *(.FPGA.tplKern)
-     KEEP(*(.FPGA.OsInstru))
+     KEEP(*(.FPGA.OsInstru.regSVC))
+     KEEP(*(.FPGA.OsInstru.regOS))
   } > fabric
 }

@@ -1,6 +1,9 @@
 #include "tpl_os_kernel.h"          /* tpl_schedule */
 #include "tpl_os_timeobj_kernel.h"  /* tpl_counter_tick */
 #include "tpl_machine_interface.h"  /* tpl_switch_context_from_it */
+#if (LEVEL_KERNEL_MONITORING >= 1) /* with kernel monitoring */
+#include "tpl_fabric_definitions.h"
+#endif
 
 extern uint32 tpl_reentrancy_counter;
 
@@ -61,6 +64,9 @@ foreach objCounter in counterForIRQ do
     %
 FUNC(tpl_bool, OS_CODE) tpl_tick_% !KEY %(void)
 {
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_COUNTER_TICK;
+#endif
 %
   foreach obj in objCounter do
   %  tpl_counter_tick(&% !obj %_counter_desc);
@@ -72,6 +78,9 @@ FUNC(tpl_bool, OS_CODE) tpl_tick_% !KEY %(void)
     tpl_schedule_from_running();
     LOCAL_SWITCH_CONTEXT()
   }
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_COUNTER_TICK;
+#endif
   return TRUE;
 }
 %
