@@ -33,6 +33,8 @@ I:start_scheduling:0:0:0
 I:action_activate_task:0:0:0
 I:action_set_event:0:0:0
 I:call_save:0:0:0
+I:central_interrupt_handler:0:0:0
+I:counter_tick:0:0:0
 I:activate_task_service:0:0:0
 I:terminate_task_service:0:0:0
 I:chain_task_service:0:0:0

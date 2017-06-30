@@ -14,7 +14,7 @@ Prop06 : always(fell(E5) -> (E1));
 
 Prop07 : always(fell(E7) -> (E3));
 
-Prop08 : always(rose(E4) -> next(run_elected));
+Prop08 : always(rose(run_elected) -> (E1 or E3 or E5 or E7));
 
 Prop09 : always(rose(run_elected) -> call_handler);
 
@@ -32,7 +32,7 @@ Prop15 : always(call_service -> call_handler);
 
 Prop16 : always(call_context -> call_handler);
 
-Prop17 : always(fell(call_service) before fell(call_handler));
+Prop17 : always(rose(call_handler) -> (call_service before fell(call_handler)));
 
 Prop18 : always(rose(call_save) -> (E3 and call_context));
 
@@ -74,7 +74,7 @@ Prop36 : always(activate_task -> (activate_task_service or chain_task_service or
 
 Prop37 : always(set_event -> (set_event_service or action_set_event));
 
-Prop38 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or release_resource_service));
+Prop38 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or central_interrupt_handler or release_resource_service or counter_tick));
 
 Prop39 : always(start_scheduling -> start_os_service);
 
