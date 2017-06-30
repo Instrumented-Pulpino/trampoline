@@ -20,7 +20,7 @@ Prop09 : always(rose(run_elected) -> call_handler);
 
 Prop10 : always(fell(run_elected) -> call_handler);
 
-Prop11 : always(rose(call_service) -> E0);
+Prop11 : always(fell(call_handler) -> E0 or E4);
 
 Prop12 : always(fell(call_service) -> (not(E5) and not(E7)));
 
