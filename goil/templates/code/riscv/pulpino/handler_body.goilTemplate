@@ -114,10 +114,8 @@ ISR_% !handlerSource %:
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
     sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
-    sw zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #else
     sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
-    sb zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #endif
 
 1:

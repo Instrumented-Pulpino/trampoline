@@ -52,12 +52,13 @@
 
 /*tpl_os_interrupt_kernel*/
 #define HW_FUNC_CENTRAL_INTERRUPT_HANDLER BIT(26)
+#define HW_FUNC_ACTIVATE_ISR2             BIT(27)
 
 /*counter call*/
-#define HW_FUNC_COUNTER_TICK              BIT(27)
+#define HW_FUNC_COUNTER_TICK              BIT(28)
 
 /*tpl_ctx_switch*/
-#define ID_CALL_SAVE                      BIT(28)
+#define ID_CALL_SAVE                      BIT(29)
 
 /*********************************************************************************************************************************************/
 

@@ -288,6 +288,10 @@ FUNC(void, OS_CODE) tpl_null_it(P2CONST(void, OS_APPL_DATA, AUTOMATIC) foo)
 STATIC FUNC(void, OS_CODE) tpl_activate_isr(
   CONST(tpl_isr_id, AUTOMATIC) isr_id)
 {
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_ACTIVATE_ISR2;
+#endif
+
   CONSTP2VAR(tpl_proc, AUTOMATIC, OS_APPL_DATA) isr =
     tpl_dyn_proc_table[isr_id];
   /*
@@ -332,6 +336,9 @@ STATIC FUNC(void, OS_CODE) tpl_activate_isr(
     }
 #endif
   }
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_ACTIVATE_ISR2;
+#endif
 }
 
 /*
