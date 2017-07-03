@@ -60,6 +60,9 @@
 /*tpl_ctx_switch*/
 #define ID_CALL_SAVE                      BIT(29)
 
+/*tpl_com_notification*/
+#define HW_FUNC_NOTIFY_RECEIVING_MOS      BIT(30)
+
 /*********************************************************************************************************************************************/
 
 

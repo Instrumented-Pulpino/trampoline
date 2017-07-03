@@ -36,6 +36,7 @@ I:call_save:0:0:0
 I:central_interrupt_handler:0:0:0
 I:activate_isr2:0:0:0
 I:counter_tick:0:0:0
+I:notify_receiving_mos:0:0:0
 I:activate_task_service:0:0:0
 I:terminate_task_service:0:0:0
 I:chain_task_service:0:0:0
@@ -46,5 +47,7 @@ I:release_resource_service:0:0:0
 I:start_os_service:0:0:0
 I:terminate_isr2_service:0:0:0
 I:terminate_application_service:0:0:0
+I:increment_counter_service:0:0:0
+I:call_terminate_task_service:0:0:0
 I:reset:0:0:0
 I:enable_IT:0:0:0

@@ -42,42 +42,40 @@ Prop20 : always(fell(activate_task_service) -> (E0 or E3 or E4));
 
 Prop21 : always(terminate_task_service -> (E0 or E1 or E4 or E5));
 
-Prop22 : always(fell(terminate_task_service) -> E1);
+Prop22 : always(compare_entries -> (bubble_up or bubble_down));
 
-Prop23 : always(compare_entries -> (bubble_up or bubble_down));
+Prop23 : always(bubble_up -> (put_new_proc or put_preempted_proc));
 
-Prop24 : always(bubble_up -> (put_new_proc or put_preempted_proc));
+Prop24 : always(bubble_down -> (remove_front_proc or remove_proc));
 
-Prop25 : always(bubble_down -> (remove_front_proc or remove_proc));
+Prop25 : always(put_preempted_proc -> run_elected);
 
-Prop26 : always(put_preempted_proc -> run_elected);
+Prop26 : always(put_new_proc -> (release or activate_task or activate_isr2));
 
-Prop27 : always(put_new_proc -> (release or activate_task or activate_isr2));
+Prop27 : always(remove_front_proc -> start);
 
-Prop28 : always(remove_front_proc -> start);
+Prop28 : always(init_proc -> start);
 
-Prop29 : always(init_proc -> start);
+Prop29 : always(release -> set_event);
 
-Prop30 : always(release -> set_event);
+Prop30 : always(run_elected -> call_context);
 
-Prop31 : always(run_elected -> call_context);
+Prop31 : always(start -> (schedule_from_running or terminate_task_service or terminate_isr2_service or chain_task_service or block_s or start_scheduling or release or terminate_application_service or call_terminate_task_service));
 
-Prop32 : always(start -> (schedule_from_running or terminate_task_service or terminate_isr2_service or chain_task_service or block_s or start_scheduling or release or terminate_application_service));
+Prop32 : always(release_internal_resource -> (block_s or terminate or schedule_service or terminate_application_service));
 
-Prop33 : always(release_internal_resource -> (block_s or terminate or schedule_service or terminate_application_service));
+Prop33 : always(block_s -> wait_event_service);
 
-Prop34 : always(block_s -> wait_event_service);
+Prop34 : always(terminate -> (terminate_task_service or chain_task_service or terminate_isr2_service or terminate_application_service or call_terminate_task_service));
 
-Prop35 : always(terminate -> (terminate_task_service or chain_task_service or terminate_isr2_service or terminate_application_service));
+Prop35 : always(activate_task -> (activate_task_service or chain_task_service or init_os or action_activate_task or terminate_application_service));
 
-Prop36 : always(activate_task -> (activate_task_service or chain_task_service or init_os or action_activate_task or terminate_application_service));
+Prop36 : always(set_event -> (set_event_service or action_set_event));
 
-Prop37 : always(set_event -> (set_event_service or action_set_event));
+Prop37 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or central_interrupt_handler or release_resource_service or counter_tick or increment_counter_service or notify_receiving_mos));
 
-Prop38 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or central_interrupt_handler or release_resource_service or counter_tick));
+Prop38 : always(start_scheduling -> start_os_service);
 
-Prop39 : always(start_scheduling -> start_os_service);
-
-Prop40 : always(init_os -> start_os_service);
+Prop39 : always(init_os -> start_os_service);
 
 }

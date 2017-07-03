@@ -49,8 +49,12 @@ FUNC(void, OS_CODE) tpl_action_setflag(
 FUNC(void, OS_CODE) tpl_notify_receiving_mos(
   CONST(uint8, AUTOMATIC) from)
 {
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_NOTIFY_RECEIVING_MOS;
+#endif
+
   GET_CURRENT_CORE_ID(core_id)
-	
+
 #if NUMBER_OF_CORES > 1
   tpl_multi_schedule();
   tpl_dispatch_context_switch();
@@ -80,6 +84,10 @@ FUNC(void, OS_CODE) tpl_notify_receiving_mos(
     }
 #endif
   }
+
+#if (LEVEL_KERNEL_MONITORING >= 4) /* with kernel monitoring */
+  reg_OS_instru_kernel_functions = HW_FUNC_NOTIFY_RECEIVING_MOS;
+#endif
 }
 
 #define OS_STOP_SEC_CODE
