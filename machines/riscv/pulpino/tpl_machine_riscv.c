@@ -14,7 +14,7 @@
 #include <timer.h>
 #include <uart.h>
 
-#define EXCEPTION_STACK_SIZE 144
+#define EXCEPTION_STACK_SIZE 128
 #define F_CPU 25000000
 
 extern void trampolineSystemCounter();
@@ -146,7 +146,7 @@ FUNC(void, OS_CODE) tpl_init_context(
 
   /* stack pointer */
   core_context->sp = ((uint32)the_proc->stack.stack_zone) +
-      the_proc->stack.stack_size - EXCEPTION_STACK_SIZE - 16;
+      the_proc->stack.stack_size - EXCEPTION_STACK_SIZE - 32;
 
   /* Dealing with initial return address */
   core_context->ra = (IS_ROUTINE == the_proc->type) ?
