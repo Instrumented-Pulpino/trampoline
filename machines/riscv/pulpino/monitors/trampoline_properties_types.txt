@@ -19,6 +19,7 @@ I:get_internal_resource:0:0:0
 I:release_internal_resource:0:0:0
 I:preempt:0:0:0
 I:run_elected:0:0:0
+I:running_equal_elected:0:0:0
 I:start:0:0:0
 I:schedule_from_running:0:0:0
 I:terminate:0:0:0

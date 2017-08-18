@@ -164,15 +164,17 @@ tpl_sc_handler_no_save_running_context:
     sw a6, 0(a5)
     #endif
 
-    /* Reset tpl_need_switch variable */
+tpl_sc_no_context_switch:
+    /* Reset need_switch and need_schedule */
     la a5, tpl_kern
     #if LEVEL_KERNEL_MONITORING >= 1
     sw zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sw zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #else
     sb zero, TPL_KERN_OFFSET_NEED_SWITCH(a5)
+    sb zero, TPL_KERN_OFFSET_NEED_SCHEDULE(a5)
     #endif
 
-tpl_sc_no_context_switch:
     /* Wakes up core in reentrant kernel calls by triggering dummy event */
     li a5, 0x1a104018 //ESP
     li a6, 1
