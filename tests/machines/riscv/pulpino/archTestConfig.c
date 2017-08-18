@@ -47,7 +47,7 @@
 #include <pulpino.h>
 #include <event.h>
 
-extern uint32 tpl_reentrancy_counter;
+extern volatile uint32 tpl_reentrancy_counter;
 extern uint32 nextISP;
 
 #if ISR_COUNT > 0

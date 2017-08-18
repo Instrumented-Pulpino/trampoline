@@ -10,6 +10,8 @@
 
 /*********************************************************************************************************************************************/
 #define AD_REG_OS_INSTRU_KERNEL_FUNCTIONS 0x1A108024
+#define AD_REG_OS_CONFIG 0x1A108028
+#define AD_REG_OS_REENTRANCY_COUNTER 0x1A10802C
 
 /**********************************************************************************
 *  Instrumention of system call handler

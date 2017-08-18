@@ -45,7 +45,7 @@ typedef struct TPL_STACK tpl_stack;
 
 extern VAR (riscv_context, OS_VAR) idle_task_context;
 
-/** 
+/**
  * Defines the context block of the task "idle"
  */
 #define IDLE_CONTEXT &idle_task_context
@@ -64,31 +64,31 @@ extern VAR(tpl_stack_word, OS_VAR) idle_stack[SIZE_OF_IDLE_STACK/sizeof(tpl_stac
  */
 #define IDLE_ENTRY tpl_sleep
 
-/** 
- * Software interruption handlers 
+/**
+ * Software interruption handlers
  * TODO: GOIL !
  */
 extern FUNC(void, OS_CODE) SOFT_IRQ0_Handler();
 extern FUNC(void, OS_CODE) SOFT_IRQ1_Handler();
 extern FUNC(void, OS_CODE) SOFT_IRQ2_Handler();
 
-/** 
- * Kernel reentrance counter 
+/**
+ * Kernel reentrance counter
  */
-extern uint32 tpl_reentrancy_counter;
+extern volatile uint32 tpl_reentrancy_counter;
 
-/** 
- * Interruption masks to each priority level 
+/**
+ * Interruption masks to each priority level
  */
 CONST(uint32, AUTOMATIC) tpl_priority_interruption_masks[32];
 
 
-/** 
+/**
  * Get interruption line from each ISR2 ID
  */
 uint32 tpl_vector_from_isr2_id(uint32 id);
 
-/** 
+/**
  * Stack of kernel priority levels
  */
 #define IT_MASKS_STACK_LENGTH 32
@@ -98,7 +98,7 @@ uint32 pop_interruption_mask(void);
 
 uint32 nextISP;
 
-/** 
+/**
  * Vectors of each interruption
  * TODO: GOIL !
  */

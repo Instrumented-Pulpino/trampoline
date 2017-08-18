@@ -5,7 +5,7 @@
 #include "tpl_fabric_definitions.h"
 #endif
 
-extern uint32 tpl_reentrancy_counter;
+extern volatile uint32 tpl_reentrancy_counter;
 
 #define OS_START_SEC_CODE
 #include "tpl_memmap.h"
