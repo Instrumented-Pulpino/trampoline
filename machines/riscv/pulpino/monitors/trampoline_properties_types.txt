@@ -6,6 +6,7 @@ I:E4:0:0:0
 I:E5:0:0:0
 I:E6:0:0:0
 I:E7:0:0:0
+I:reentrancy_level_1:0:0:0
 I:call_handler:0:0:0
 I:call_service:0:0:0
 I:call_context:0:0:0
