@@ -8,8 +8,8 @@ ISR_% !handlerSource %:
 
     /* Inform the fabric we are calling a service */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li  a6, ID_CALL_SERVICE
+    li  a4, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li  a6, ID_CALL_SERVICE_ENTER
     sw  a6, 0(a4)
     #endif
 
@@ -20,8 +20,8 @@ ISR_% !handlerSource %:
 
     /* Inform the fabric we are leaving a service */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li  a5, ID_CALL_SERVICE
+    li  a4, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li  a5, ID_CALL_SERVICE_EXIT
     sw  a5, 0(a4)
     #endif
 
@@ -43,8 +43,8 @@ ISR_% !handlerSource %:
 
     /* inform the fabric we are executing a context switch */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a7, ID_CALL_CONTEXT
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a7, ID_CALL_CONTEXT_ENTER
     sw a7, 0(a5)
     #endif
 
@@ -64,8 +64,8 @@ ISR_% !handlerSource %:
 
     /* inform the fabric we are executing a save context */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_CONTEXT
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a6, ID_CALL_SAVE_ENTER
     sw a6, 0(a5)
     #endif
 
@@ -77,8 +77,8 @@ ISR_% !handlerSource %:
 
     /* inform the fabric we are finishing a save context */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_CONTEXT
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a6, ID_CALL_SAVE_EXIT
     sw a6, 0(a5)
     #endif
 
@@ -105,8 +105,8 @@ ISR_% !handlerSource %:
 
     /* inform the fabric we are finishing a context switch */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_CONTEXT
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a6, ID_CALL_CONTEXT_EXIT
     sw a6, 0(a5)
     #endif
 
@@ -143,13 +143,6 @@ ISR_% !handlerSource %:
     bnez a6, 1f
     lw a6, tpl_mestatus
     csrw 0x7c0, a6
-
-    /* inform the fabric we are leaving the kernel  */
-    #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a5, ID_CALL_HANDLER
-    sw a5, 0(a4)
-    #endif
 
     /* Clears up dummy event */
     li a5, 0x1a10401C //ECP

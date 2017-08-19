@@ -145,6 +145,6 @@ SECTIONS
      *(.FPGA.tplKern)
      KEEP(*(.FPGA.OsInstru.regSVC))
      KEEP(*(.FPGA.OsInstru.regOS))
-     KEEP(*(.FPGA.OsInstru.regREENT))
+     KEEP(*(.FPGA.OsInstru.regOS_SCALL))
   } > fabric
 }

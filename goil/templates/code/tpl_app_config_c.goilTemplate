@@ -1151,5 +1151,6 @@ end foreach
 
 VAR(uint32, TYPEDEF) volatile reg_OS_instru_service __attribute__((section(".FPGA.OsInstru.regSVC"))) = 0x00000000;
 VAR(uint32, TYPEDEF) volatile reg_OS_instru_kernel_functions __attribute__((section(".FPGA.OsInstru.regOS"))) = 0x00000000;
+VAR(uint32, TYPEDEF) volatile reg_OS_instru_kernel_scall_functions __attribute__((section(".FPGA.OsInstru.regOS_SCALL"))) = 0x00000000;
 
 /* End of file tpl_app_config.c */

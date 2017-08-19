@@ -6,10 +6,18 @@ I:E4:0:0:0
 I:E5:0:0:0
 I:E6:0:0:0
 I:E7:0:0:0
-I:reentrancy_level_1:0:0:0
 I:call_handler:0:0:0
+I:call_handler_enter:0:0:0
+I:call_handler_exit:0:0:0
+I:reentrancy_counter:0:0:0
 I:call_service:0:0:0
+I:call_service_enter:0:0:0
+I:call_service_exit:0:0:0
+I:call_service_counter:0:0:0
 I:call_context:0:0:0
+I:call_context_enter:0:0:0
+I:call_context_exit:0:0:0
+I:call_context_counter:0:0:0
 I:compare_entries:0:0:0
 I:bubble_up:0:0:0
 I:bubble_down:0:0:0
@@ -51,5 +59,3 @@ I:terminate_isr2_service:0:0:0
 I:terminate_application_service:0:0:0
 I:increment_counter_service:0:0:0
 I:call_terminate_task_service:0:0:0
-I:reset:0:0:0
-I:enable_IT:0:0:0

@@ -20,7 +20,7 @@
 extern void trampolineSystemCounter();
 extern void switch_context();
 
-uint32 volatile tpl_reentrancy_counter __attribute__((section(".FPGA.OsInstru.regREENT"))) = 0;
+uint32 volatile tpl_reentrancy_counter = 0;
 uint32 tpl_mestatus = 0x1;
 uint8 stack_position = 0;
 uint8 TA_CMP = 28;

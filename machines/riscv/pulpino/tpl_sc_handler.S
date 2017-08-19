@@ -37,17 +37,14 @@ tpl_sc_handler:
     addi a5, a5, 1
     la a6, tpl_reentrancy_counter
     sw a5, 0(a6)
-    li a6, 1
-    bne a5, a6, 1f
 
     /* inform the fabric we are entering the kernel  */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a5, ID_CALL_HANDLER
+    li a4, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a5, ID_CALL_HANDLER_ENTER
     sw a5, 0(a4)
     #endif
 
-1:
     /* Gets function pointer to the service */
     #if (LEVEL_KERNEL_MONITORING >= 3)
     mv a6, a7
@@ -69,8 +66,8 @@ tpl_sc_handler:
 
     /* Inform the fabric we are calling a service */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li  a6, ID_CALL_SERVICE
+    li  a4, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li  a6, ID_CALL_SERVICE_ENTER
     sw  a6, 0(a4)
     #endif
 
@@ -82,8 +79,8 @@ tpl_sc_handler:
 
     /* Inform the fabric we are leaving a service */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li  a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li  a5, ID_CALL_SERVICE
+    li  a4, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li  a5, ID_CALL_SERVICE_EXIT
     sw  a5, 0(a4)
     #endif
 
@@ -111,8 +108,8 @@ tpl_switch_context:
 
     /* inform the fabric we are executing a context switch */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a7, ID_CALL_CONTEXT
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a7, ID_CALL_CONTEXT_ENTER
     sw a7, 0(a5)
     #endif
 
@@ -126,8 +123,8 @@ tpl_switch_context:
 
     /* inform the fabric we are executing a save context */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_SAVE
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a6, ID_CALL_SAVE_ENTER
     sw a6, 0(a5)
     #endif
 
@@ -139,8 +136,8 @@ tpl_switch_context:
 
     /* inform the fabric we are finishing a save context */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_SAVE
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a6, ID_CALL_SAVE_EXIT
     sw a6, 0(a5)
     #endif
 
@@ -159,8 +156,8 @@ tpl_sc_handler_no_save_running_context:
 
     /* inform the fabric we are finishing a context switch */
     #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a5, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a6, ID_CALL_CONTEXT
+    li a5, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a6, ID_CALL_CONTEXT_EXIT
     sw a6, 0(a5)
     #endif
 
@@ -196,13 +193,6 @@ tpl_sc_no_context_switch:
     li a6, 1
     sw a6, 0(a5)
 
-    /* inform the fabric we are leaving the kernel  */
-    #if (LEVEL_KERNEL_MONITORING >= 2)
-    li a4, AD_REG_OS_INSTRU_KERNEL_FUNCTIONS
-    li a5, ID_CALL_HANDLER
-    sw a5, 0(a4)
-    #endif
-
     /* Trigger pending interruptions */
     li a5, 0x1a104000
     lw a6, nextISP
@@ -211,6 +201,13 @@ tpl_sc_no_context_switch:
     sw zero, 0(a5)
 
 1:
+    /* inform the fabric we are leaving the kernel  */
+    #if (LEVEL_KERNEL_MONITORING >= 2)
+    li a4, AD_REG_OS_INSTRU_KERNEL_SCALL_FUNCTIONS
+    li a5, ID_CALL_HANDLER_EXIT
+    sw a5, 0(a4)
+    #endif
+
     /* Reloads working registers */
     lw ra, 16(sp)
     lw a7, 12(sp)

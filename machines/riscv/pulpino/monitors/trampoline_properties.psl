@@ -16,81 +16,86 @@ Prop07 : always(fell(E7) -> (E3));
 
 Prop08 : always(rose(E4) -> (running_equal_elected));
 
-Prop09 : always((rose(call_handler) and reentrancy_level_1) -> running_equal_elected);
+Prop09 : always((rose(call_handler) and (reentrancy_counter = 1)) -> running_equal_elected);
 
-Prop10 : always((fell(call_handler) and reentrancy_level_1) -> running_equal_elected);
+Prop10 : always((fell(call_handler) and (reentrancy_counter = 1)) -> running_equal_elected);
 
 Prop11 : always(fell(call_handler) -> E0);
 
-Prop12 : always(fell(call_service) -> (not(E5) and not(E7)));
+Prop12 : always((call_service_enter and (reentrancy_counter = 1)) -> E0);
 
-Prop13 : always(rose(call_context) -> (E1 or E3));
+Prop13 : always(fell(call_service) -> (not(E5) and not(E7)));
 
-Prop14 : always(rose(call_context) -> (reentrancy_level_1));
+Prop14 : always(rose(call_context) -> (E1 or E3));
 
-Prop15 : always(run_elected -> call_context);
+Prop15 : always(rose(call_context) -> (reentrancy_counter = 1));
 
-Prop16 : always(call_service -> call_handler);
+Prop16 : always(run_elected -> call_context);
 
-Prop17 : always(call_context -> call_handler);
+Prop17 : always(call_service -> call_handler);
 
-Prop18 : always(rose(call_handler) -> (call_service before fell(call_handler)));
+Prop18 : always(call_context -> call_handler);
 
-Prop19 : always(rose(call_save) -> (E3 and call_context));
+Prop19 : always(call_handler_enter -> (call_service before call_handler_exit));
 
-Prop20 : always(activate_task_service -> (not(E1) and not(E5)));
+Prop20 : always(not(call_handler_enter) or not(reentrancy_counter = 3));
 
-Prop21 : always(fell(activate_task_service) -> (E0 or E3 or E4));
+Prop21 : always(call_service_counter <= reentrancy_counter);
 
-Prop22 : always(terminate_task_service -> (E0 or E1));
+Prop22 : always(rose(call_save) -> (E3 and call_context and (reentrancy_counter = 1)));
 
-Prop23 : always(chain_task_service -> not(E3 or E7));
+Prop23 : always(activate_task_service -> (not(E1) and not(E5)));
 
-Prop24 : always(fell(chain_task_service) -> (E0 or E1));
+Prop24 : always(fell(activate_task_service) -> (E0 or E3 or E4));
 
-Prop25 : always(schedule_service -> (E0 or E3));
+Prop25 : always(terminate_task_service -> (E0 or E1));
 
-Prop26 : always(set_event_service -> not(E1 or E5));
+Prop26 : always(chain_task_service -> not(E3 or E7));
 
-Prop27 : always(fell(set_event_service) -> (E0 or E3 or E4));
+Prop27 : always(fell(chain_task_service) -> (E0 or E1));
 
-Prop28 : always(wait_event_service -> (E0 or E3));
+Prop28 : always(schedule_service -> (E0 or E3));
 
-Prop29 : always(release_resource_service -> (E0 or E3));
+Prop29 : always(set_event_service -> not(E1 or E5));
 
-Prop30 : always(compare_entries -> (bubble_up or bubble_down));
+Prop30 : always(fell(set_event_service) -> (E0 or E3 or E4));
 
-Prop31 : always(bubble_up -> (put_new_proc or put_preempted_proc));
+Prop31 : always(wait_event_service -> (E0 or E3));
 
-Prop32 : always(bubble_down -> (remove_front_proc or remove_proc));
+Prop32 : always(release_resource_service -> (E0 or E3));
 
-Prop33 : always(put_preempted_proc -> run_elected);
+Prop33 : always(compare_entries -> (bubble_up or bubble_down));
 
-Prop34 : always(put_new_proc -> (release or activate_task or activate_isr2));
+Prop34 : always(bubble_up -> (put_new_proc or put_preempted_proc));
 
-Prop35 : always(remove_front_proc -> start);
+Prop35 : always(bubble_down -> (remove_front_proc or remove_proc));
 
-Prop36 : always(init_proc -> start);
+Prop36 : always(put_preempted_proc -> run_elected);
 
-Prop37 : always(release -> set_event);
+Prop37 : always(put_new_proc -> (release or activate_task or activate_isr2));
 
-Prop38 : always(run_elected -> call_context);
+Prop38 : always(remove_front_proc -> start);
 
-Prop39 : always(start -> (schedule_from_running or terminate_task_service or terminate_isr2_service or chain_task_service or block_s or start_scheduling or release or terminate_application_service or call_terminate_task_service));
+Prop39 : always(init_proc -> start);
 
-Prop40 : always(release_internal_resource -> (block_s or terminate or schedule_service or terminate_application_service));
+Prop40 : always(release -> set_event);
 
-Prop41 : always(block_s -> wait_event_service);
+Prop41 : always(start -> (schedule_from_running or terminate_task_service or terminate_isr2_service or chain_task_service or block_s or start_scheduling or release or terminate_application_service or call_terminate_task_service));
 
-Prop42 : always(terminate -> (terminate_task_service or chain_task_service or terminate_isr2_service or terminate_application_service or call_terminate_task_service));
+Prop42 : always(release_internal_resource -> (block_s or terminate or schedule_service or terminate_application_service));
 
-Prop43 : always(activate_task -> (activate_task_service or chain_task_service or init_os or action_activate_task or terminate_application_service));
+Prop43 : always(block_s -> wait_event_service);
 
-Prop44 : always(set_event -> (set_event_service or action_set_event));
+Prop44 : always(terminate -> (terminate_task_service or chain_task_service or terminate_isr2_service or terminate_application_service or call_terminate_task_service));
 
-Prop45 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or central_interrupt_handler or release_resource_service or counter_tick or increment_counter_service or notify_receiving_mos));
+Prop45 : always(activate_task -> (activate_task_service or chain_task_service or init_os or action_activate_task or terminate_application_service));
 
-Prop46 : always(start_scheduling -> start_os_service);
+Prop46 : always(set_event -> (set_event_service or action_set_event));
 
-Prop47 : always(init_os -> start_os_service);
+Prop47 : always(schedule_from_running -> (activate_task_service or schedule_service or set_event_service or central_interrupt_handler or release_resource_service or counter_tick or increment_counter_service or notify_receiving_mos));
+
+Prop48 : always(start_scheduling -> start_os_service);
+
+Prop49 : always(init_os -> start_os_service);
+
 }
