@@ -13,6 +13,7 @@ struct RISCV_CONTEXT {
     uint32 mepc;
     uint32 mestatus;
     uint32 ra;
+    uint32 pile[31];
 };
 
 /**
